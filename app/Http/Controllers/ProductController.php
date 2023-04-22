@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
 
 class ProductController extends Controller
 {
@@ -22,7 +24,7 @@ class ProductController extends Controller
         return $product;
     }
 
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
         $product = new Product();
         $product->id = Str::uuid()->toString();
@@ -35,7 +37,7 @@ class ProductController extends Controller
         return $product;
     }
 
-    public function update(Request $request)
+    public function update(ProductUpdateRequest $request)
     {
         $product =  Product::find($request['id']);
 
