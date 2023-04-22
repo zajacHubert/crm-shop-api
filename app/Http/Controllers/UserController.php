@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 
 class UserController extends Controller
 {
@@ -26,7 +28,7 @@ class UserController extends Controller
         return $user;
     }
 
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
         $user = new User();
         $user->id = Str::uuid()->toString();
@@ -39,7 +41,7 @@ class UserController extends Controller
         return $user;
     }
 
-    public function update(Request $request)
+    public function update(UserUpdateRequest $request)
     {
         $user = User::find($request['id']);
 
