@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderStoreRequest;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class OrderController extends Controller
         return $order;
     }
 
-    public function store(Request $request)
+    public function store(OrderStoreRequest $request)
     {
         $order = new Order();
         $order->id = Str::uuid()->toString();
