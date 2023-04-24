@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderStoreRequest;
+use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -50,7 +51,7 @@ class OrderController extends Controller
         return ['success' => true];
     }
 
-    public function update(Request $request)
+    public function update(OrderUpdateRequest $request)
     {
         $order = Order::find($request['id']);
 

@@ -10,8 +10,14 @@ return new class extends Migration
     {
         Schema::create('order_product', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('order_id')->constrained()->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->foreignUuid('product_id')->constrained()->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreignUuid('order_id')
+                ->constrained()
+                ->onDelete('CASCADE')
+                ->onUpdate('CASCADE');
+            $table->foreignUuid('product_id')
+                ->constrained()
+                ->onDelete('CASCADE')
+                ->onUpdate('CASCADE');
             $table->timestamps();
         });
     }
