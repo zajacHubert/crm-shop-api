@@ -10,9 +10,13 @@ use App\Http\Requests\ProductUpdateRequest;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate(10);
+        if ($request['product_category']) {
+            $products = Product::where('product_category', $request['product_category'])->paginate(10);
+        } else {
+            $products = Product::paginate(10);
+        }
 
         return $products;
     }
@@ -54,6 +58,7 @@ class ProductController extends Controller
     {
         $success = Product::destroy($request['id']);
         return [
+            'id' => $request['id'],
             'success' => boolval($success),
         ];
     }
