@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserUpdateRequest;
+use App\Models\Order;
+use Illuminate\Database\Eloquent\Casts\Json;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -25,6 +27,7 @@ class UserController extends Controller
 
     public function show(Request $request)
     {
+
         $user = User::with(['role', 'orders'])
             ->where('id', $request->id)
             ->first();
@@ -82,10 +85,10 @@ class UserController extends Controller
             ->where('id', $user->id)
             ->first();
 
-        return [
-            'jwt' => $request->cookie('jwt'),
+        return response([
+            'jwt' => $request->bearerToken('jwt'),
             'user_logged' => $user_with_role,
-        ];
+        ]);
     }
 
     public function logout()
@@ -115,6 +118,7 @@ class UserController extends Controller
         $success = User::destroy($request['id']);
         return [
             'success' => boolval($success),
+            'user_id' => $request['id'],
         ];
     }
 }

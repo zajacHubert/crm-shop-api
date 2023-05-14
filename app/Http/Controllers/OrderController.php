@@ -12,9 +12,16 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with(['user', 'products'])->paginate(10);
+        if ($request['sort_param']) {
+            $orders = Order::with(['user', 'products'])
+                ->orderBy($request['sort_param'], $request['direction'])
+                ->paginate(10);
+        } else {
+            $orders = Order::with(['user', 'products'])
+                ->paginate(10);
+        }
 
         return $orders;
     }
@@ -34,6 +41,7 @@ class OrderController extends Controller
         $order->id = Str::uuid()->toString();
         $order->user_id = $request['user_id'];
         $order->created_at = Carbon::now();
+        $order->value = $request['value'];
         $order->save();
 
         $order_product_data = [];
@@ -48,7 +56,10 @@ class OrderController extends Controller
         foreach ($order_product_data as $item) {
             DB::table('order_product')->insert((array)$item);
         }
-        return ['success' => true];
+        return [
+            'success' => true,
+            'order_id' => $order->id,
+        ];
     }
 
     public function update(OrderUpdateRequest $request)
@@ -91,6 +102,7 @@ class OrderController extends Controller
         $success = Order::destroy($request['id']);
         return [
             'success' => boolval($success),
+            'order_id' => [$request['id']],
         ];
     }
 }

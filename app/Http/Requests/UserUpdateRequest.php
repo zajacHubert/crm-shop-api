@@ -17,7 +17,7 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => 'max:50|min:4',
-            'email' => 'unique:users|min:4|max:50',
+            'email' => 'min:4|max:50',
             'password' => 'min:4|max:50',
             'role_id' => 'uuid',
         ];

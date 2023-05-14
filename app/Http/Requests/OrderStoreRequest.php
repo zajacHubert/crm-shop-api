@@ -20,6 +20,7 @@ class OrderStoreRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'productsIds' => 'required|array',
             'productsIds.*' => 'required|exists:products,id',
+            'value' => ['required', 'regex:/^((\d{1,3}|\s*){1})((\,\d{3}|\d)*)(\s*|\.(\d{2}))$/'],
         ];
     }
 
