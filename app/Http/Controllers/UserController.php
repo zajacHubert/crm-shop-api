@@ -1,124 +1,61 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
-use App\Models\User;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserUpdateRequest;
-use App\Models\Order;
-use Illuminate\Database\Eloquent\Casts\Json;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
+use App\Repositories\UserRepositoryInterface;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        $users = User::with(['role', 'orders'])
-            ->paginate(10);
+    protected $user_repository;
 
-        return $users;
+    public function __construct(UserRepositoryInterface $user_repository)
+    {
+        $this->user_repository = $user_repository;
     }
 
-    public function show(Request $request)
+    public function index()
     {
+        return $this->user_repository->index();
+    }
 
-        $user = User::with(['role', 'orders'])
-            ->where('id', $request->id)
-            ->first();
-
-        return $user;
+    public function show(string $id)
+    {
+        return $this->user_repository->show($id);
     }
 
     public function register(UserRegisterRequest $request)
     {
-        $user = new User();
-        $user->id = Str::uuid()->toString();
-        $user->name = $request['name'];
-        $user->email = $request['email'];
-        $user->password = Hash::make($request['password']);
-        $user->role_id = $request['role_id'];
-
-        $user->save();
-
-        $user_with_role = User::with('role')
-            ->where('id', $user->id)
-            ->first();
-
-        return $user_with_role;
+        return $this->user_repository->register($request);
     }
 
     public function login(UserLoginRequest $request)
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response([
-                'error' => 'Invalid credentials!'
-            ], Response::HTTP_UNAUTHORIZED);
-        }
-
-        /** @var User $user */
-        $user = Auth::user();
-
-        $jwt = $user->createToken('token')->plainTextToken;
-        $cookie = cookie('jwt', $jwt, 60 * 24, null, null, null, false);
-
-        $user = User::with('role')
-            ->where('email', $request['email'] ?? '')
-            ->first();
-
-        return response([
-            'jwt' => $jwt,
-            'user_logged' => $user
-        ])->withCookie($cookie);
+        return $this->user_repository->login($request);
     }
 
     public function refreshAuth(Request $request)
     {
-        $user = Auth::user();
-
-        $user_with_role = User::with('role')
-            ->where('id', $user->id)
-            ->first();
-
-        return response([
-            'jwt' => $request->bearerToken('jwt'),
-            'user_logged' => $user_with_role,
-        ]);
+        return $this->user_repository->refreshAuth($request);
     }
 
     public function logout()
     {
-        $cookie = Cookie::forget('jwt');
-
-        return response([
-            'success' => true,
-            'message' => 'logged out',
-        ])->withCookie($cookie);
+        return $this->user_repository->logout();
     }
 
     public function update(UserUpdateRequest $request)
     {
-        $user = User::find($request['id']);
-
-        $user->name = $request['name'] ?? $user['name'];
-        $user->email = $request['email'] ?? $user['email'];
-        $user->password = $request['password'] ?? $user['password'];
-
-        $user->save();
-        return $user;
+        return $this->user_repository->update($request);
     }
 
-    public function destroy(Request $request)
+    public function destroy(string $id)
     {
-        $success = User::destroy($request['id']);
-        return [
-            'success' => boolval($success),
-            'user_id' => $request['id'],
-        ];
+        return $this->user_repository->destroy($id);
     }
 }
