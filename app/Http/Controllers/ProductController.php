@@ -21,9 +21,9 @@ class ProductController extends Controller
         return $products;
     }
 
-    public function show(Request $request)
+    public function show(string $id)
     {
-        $product = Product::find($request->id);
+        $product = Product::find($id);
 
         return $product;
     }
@@ -54,11 +54,11 @@ class ProductController extends Controller
         return $product;
     }
 
-    public function destroy(Request $request)
+    public function destroy(string $id)
     {
-        $success = Product::destroy($request['id']);
+        $success = Product::destroy($id);
         return [
-            'id' => $request['id'],
+            'id' => $id,
             'success' => boolval($success),
         ];
     }
