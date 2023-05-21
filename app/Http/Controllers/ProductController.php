@@ -2,64 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Repositories\ProductRepositoryInterface;
 
 class ProductController extends Controller
 {
+    protected $product_repository;
+
+    public function __construct(ProductRepositoryInterface $product_repository)
+    {
+        $this->product_repository = $product_repository;
+    }
+
     public function index(Request $request)
     {
-        if ($request['product_category']) {
-            $products = Product::where('product_category', $request['product_category'])->paginate(10);
-        } else {
-            $products = Product::paginate(10);
-        }
-
-        return $products;
+        return $this->product_repository->index($request);
     }
 
     public function show(string $id)
     {
-        $product = Product::find($id);
-
-        return $product;
+        return $this->product_repository->show($id);
     }
 
     public function store(ProductStoreRequest $request)
     {
-        $product = new Product();
-        $product->id = Str::uuid()->toString();
-        $product->product_name = $request['product_name'];
-        $product->product_desc = $request['product_desc'];
-        $product->product_price = $request['product_price'];
-        $product->product_category = $request['product_category'];
-
-        $product->save();
-        return $product;
+        return $this->product_repository->store($request);
     }
 
     public function update(ProductUpdateRequest $request)
     {
-        $product =  Product::find($request['id']);
-
-        $product->product_name = $request['product_name'] ?? $product['product_name'];
-        $product->product_desc = $request['product_desc'] ?? $product['product_desc'];
-        $product->product_price = $request['product_price'] ?? $product['product_price'];
-        $product->product_category = $request['product_category'] ?? $product['product_category'];
-
-        $product->save();
-        return $product;
+        return $this->product_repository->update($request);
     }
 
     public function destroy(string $id)
     {
-        $success = Product::destroy($id);
-        return [
-            'id' => $id,
-            'success' => boolval($success),
-        ];
+        return $this->product_repository->destroy($id);
     }
 }
