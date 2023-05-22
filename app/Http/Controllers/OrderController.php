@@ -26,10 +26,10 @@ class OrderController extends Controller
         return $orders;
     }
 
-    public function show(Request $request)
+    public function show(string $id)
     {
         $order = Order::with(['user', 'products'])
-            ->where('id', [$request['id']])
+            ->where('id', $id)
             ->first();
 
         return $order;
@@ -97,12 +97,12 @@ class OrderController extends Controller
         return $complete_order;
     }
 
-    public function destroy(Request $request)
+    public function destroy(string $id)
     {
-        $success = Order::destroy($request['id']);
+        $success = Order::destroy($id);
         return [
             'success' => boolval($success),
-            'order_id' => [$request['id']],
+            'order_id' => [$id],
         ];
     }
 }
