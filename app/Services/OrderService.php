@@ -2,44 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories;
+namespace App\Services;
 
 use Carbon\Carbon;
 use App\Models\Order;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Response;
+use App\Services\Contracts\OrderServiceInterface;
 
-class OrderRepository implements OrderRepositoryInterface
+class OrderService implements OrderServiceInterface
 {
-    public function index(Request $request): Collection
-    {
-        if ($request['sort_param']) {
-            $orders = Order::with(['user', 'products'])
-                ->orderBy($request['sort_param'], $request['direction'])
-                ->paginate(10);
-        } else {
-            $orders = Order::with(['user', 'products'])
-                ->paginate(10);
-        }
-
-        return $orders;
-    }
-
-    public function show(string $id): ?Order
-    {
-        $order = Order::with(['user', 'products'])
-            ->where('id', $id)
-            ->first();
-
-        return $order;
-    }
-
     public function store(OrderStoreRequest $request): array
     {
         $order = new Order();
