@@ -11,10 +11,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
+use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Services\Contracts\OrderServiceInterface;
 
 class OrderService implements OrderServiceInterface
 {
+    public function __construct(private OrderRepositoryInterface $orderRepository)
+    {
+    }
+
     public function store(OrderStoreRequest $request): array
     {
         $order = new Order();
@@ -44,7 +49,7 @@ class OrderService implements OrderServiceInterface
 
     public function update(OrderUpdateRequest $request): Model
     {
-        $order = Order::find($request['id']);
+        $order = $this->orderRepository->show($request['id']);
 
         if ($request['user_id']) {
             DB::table('orders')

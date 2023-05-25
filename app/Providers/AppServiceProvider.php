@@ -2,16 +2,18 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\OrderRepositoryInterface;
+use App\Repositories\Contracts\ProductRepositoryInterface;
+use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Repositories\OrderRepository;
-use App\Repositories\OrderRepositoryInterface;
 use App\Repositories\ProductRepository;
-use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\UserRepository;
-use App\Repositories\UserRepositoryInterface;
 use App\Services\Contracts\OrderServiceInterface;
 use App\Services\Contracts\ProductServiceInterface;
+use App\Services\Contracts\UserServiceInterface;
 use App\Services\OrderService;
 use App\Services\ProductService;
+use App\Services\UserService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(OrderServiceInterface::class, OrderService::class);
         $this->app->bind(ProductServiceInterface::class, ProductService::class);
+        $this->app->bind(UserServiceInterface::class, UserService::class);
     }
 
     /**

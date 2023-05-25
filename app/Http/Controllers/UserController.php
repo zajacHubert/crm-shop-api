@@ -7,55 +7,53 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Repositories\UserRepositoryInterface;
+use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Services\Contracts\UserServiceInterface;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    protected $user_repository;
-
-    public function __construct(UserRepositoryInterface $user_repository)
+    public function __construct(private UserRepositoryInterface $userRepository, private UserServiceInterface $userService)
     {
-        $this->user_repository = $user_repository;
     }
 
     public function index()
     {
-        return $this->user_repository->index();
+        return $this->userRepository->index();
     }
 
     public function show(string $id)
     {
-        return $this->user_repository->show($id);
+        return $this->userRepository->show($id);
     }
 
     public function register(UserRegisterRequest $request)
     {
-        return $this->user_repository->register($request);
+        return $this->userService->register($request);
     }
 
     public function login(UserLoginRequest $request)
     {
-        return $this->user_repository->login($request);
+        return $this->userService->login($request);
     }
 
     public function refreshAuth(Request $request)
     {
-        return $this->user_repository->refreshAuth($request);
+        return $this->userService->refreshAuth($request);
     }
 
     public function logout()
     {
-        return $this->user_repository->logout();
+        return $this->userService->logout();
     }
 
     public function update(UserUpdateRequest $request)
     {
-        return $this->user_repository->update($request);
+        return $this->userService->update($request);
     }
 
     public function destroy(string $id)
     {
-        return $this->user_repository->destroy($id);
+        return $this->userService->destroy($id);
     }
 }

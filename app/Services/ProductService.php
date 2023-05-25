@@ -8,7 +8,7 @@ use App\Services\Contracts\ProductServiceInterface;
 use App\Models\Product;
 use App\Http\Requests\ProductStoreRequest;
 use App\Http\Requests\ProductUpdateRequest;
-use App\Repositories\ProductRepositoryInterface;
+use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -20,7 +20,7 @@ class ProductService implements ProductServiceInterface
 
     public function store(ProductStoreRequest $request): Model
     {
-        $product = $this->productRepository->show($request['id']);
+        $product = new Product();
         $product->id = Str::uuid()->toString();
         $product->product_name = $request['product_name'];
         $product->product_desc = $request['product_desc'];

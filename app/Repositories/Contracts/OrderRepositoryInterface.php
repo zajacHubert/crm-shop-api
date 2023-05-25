@@ -2,19 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Repositories;
+namespace App\Repositories\Contracts;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\OrderStoreRequest;
-use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface OrderRepositoryInterface
 {
-    public function index(Request $request): Collection;
+    public function index(Request $request): LengthAwarePaginator;
     public function show(string $id): ?Order;
-    public function store(OrderStoreRequest $request);
-    public function update(OrderUpdateRequest $request);
-    public function destroy(string $id);
 }

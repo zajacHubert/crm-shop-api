@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderStoreRequest;
-use App\Http\Requests\OrderUpdateRequest;
-use App\Repositories\OrderRepositoryInterface;
-use App\Services\Contracts\OrderServiceInterface;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\OrderStoreRequest;
+use App\Services\Contracts\OrderServiceInterface;
+use App\Repositories\Contracts\OrderRepositoryInterface;
+use App\Http\Requests\OrderUpdateRequest;
 
 class OrderController extends Controller
 {
