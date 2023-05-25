@@ -23,7 +23,7 @@ class ProductRepository implements ProductRepositoryInterface
         return $products;
     }
 
-    public function show(string $id): Model
+    public function show(string $id): ?Product
     {
         $product = Product::find($id);
         return $product;
