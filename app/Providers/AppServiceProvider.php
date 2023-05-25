@@ -9,7 +9,9 @@ use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryInterface;
 use App\Services\Contracts\OrderServiceInterface;
+use App\Services\Contracts\ProductServiceInterface;
 use App\Services\OrderService;
+use App\Services\ProductService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
         $this->app->bind(OrderServiceInterface::class, OrderService::class);
+        $this->app->bind(ProductServiceInterface::class, ProductService::class);
     }
 
     /**
