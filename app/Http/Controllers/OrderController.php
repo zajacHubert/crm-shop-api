@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\OrderStoreRequest;
-use App\Services\Contracts\OrderServiceInterface;
 use App\Repositories\Contracts\OrderRepositoryInterface;
-use App\Http\Requests\OrderUpdateRequest;
+use App\Services\Contracts\OrderServiceInterface;
 use App\Models\Order;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Http\Requests\OrderStoreRequest;
+use App\Http\Requests\OrderUpdateRequest;
 
 class OrderController extends Controller
 {

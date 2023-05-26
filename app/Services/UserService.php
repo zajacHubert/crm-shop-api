@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Services\Contracts\UserServiceInterface;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\UserRegisterRequest;
-use App\Repositories\Contracts\UserRepositoryInterface;
-use App\Services\Contracts\UserServiceInterface;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Response;
 
 class UserService implements UserServiceInterface
 {

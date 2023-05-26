@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Carbon\Carbon;
+use App\Repositories\Contracts\OrderRepositoryInterface;
+use App\Services\Contracts\OrderServiceInterface;
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
-use App\Repositories\Contracts\OrderRepositoryInterface;
-use App\Services\Contracts\OrderServiceInterface;
 
 class OrderService implements OrderServiceInterface
 {
