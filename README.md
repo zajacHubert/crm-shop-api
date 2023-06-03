@@ -7,8 +7,8 @@
 
 ## Test accounts to login to application with certain role:
 - Admin
-    - email: admin@admin
- - password: admin123
+  - email: admin@admin
+  - password: admin123
 - Employee
  - email: eamployee@employee
  - password: employee123
