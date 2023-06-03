@@ -10,11 +10,13 @@
   - email: admin@admin
   - password: admin123
 - Employee
-  - email: eamployee@employee
+  - email: employee@employee
   - password: employee123
 - Client
   - email: client@client
   - password: client123
+
+## To test all the functionalities of the application, it is recommended to log in as admin
 
 ## Features:
 - Authentication: Secure user registration and login using JWT (JSON Web Tokens) for stateless authentication 
