@@ -32,7 +32,7 @@
   - make it easier to write unit tests for application
   - allow you to encapsulate common data access and business logic operations into reusable components
   - rovide a flexible layer between your application and the underlying data storage
-  - ou can centralize your data access and business logic operations. This makes it easier to update or modify specific parts of your application without affecting other areas
+  - you can centralize your data access and business logic operations. This makes it easier to update or modify specific parts of your application without affecting other areas
   - enforce security measures at the data access layer
   - allow you to scale your application more effectively
 
