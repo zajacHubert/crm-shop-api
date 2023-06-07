@@ -3,7 +3,7 @@
 ## https://crm-api.mydevillogin.usermd.net/
 
 # Live preview with frontend
-## [https://crm-shop-client-rf6tnef2z-zajachubert.vercel.app/](https://crm-shop-client.vercel.app/)
+## https://crm-shop-client.vercel.app/
 
 ## Test accounts to login to application with certain role:
 - Admin
