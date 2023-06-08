@@ -20,7 +20,7 @@ use App\Http\Requests\UserRegisterRequest;
 
 class UserService implements UserServiceInterface
 {
-    public function __construct(private UserRepositoryInterface $userRepository)
+    public function __construct(private UserRepositoryInterface $userRepository, private User $userModel)
     {
     }
 
@@ -35,7 +35,7 @@ class UserService implements UserServiceInterface
 
         $user->save();
 
-        $user_with_role = User::with('role')
+        $user_with_role = $this->userModel::with('role')
             ->where('id', $user->id)
             ->first();
 
@@ -56,7 +56,7 @@ class UserService implements UserServiceInterface
         $jwt = $user->createToken('token')->plainTextToken;
         $cookie = cookie('jwt', $jwt, 60 * 24, null, null, null, false);
 
-        $user = User::with('role')
+        $user = $this->userModel::with('role')
             ->where('email', $request['email'] ?? '')
             ->first();
 
@@ -70,7 +70,7 @@ class UserService implements UserServiceInterface
     {
         $user = Auth::user();
 
-        $user_with_role = User::with('role')
+        $user_with_role = $this->userModel::with('role')
             ->where('id', $user->id)
             ->first();
 
@@ -104,7 +104,7 @@ class UserService implements UserServiceInterface
 
     public function destroy(string $id): array
     {
-        $success = User::destroy($id);
+        $success = $this->userModel::destroy($id);
         return [
             'success' => boolval($success),
             'user_id' => $id,

@@ -194,6 +194,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\OrderServiceProvider::class,
+        App\Providers\ProductServiceProvider::class,
+        App\Providers\UserServiceProvider::class,
 
     ],
 

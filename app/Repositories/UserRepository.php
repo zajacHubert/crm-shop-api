@@ -10,9 +10,13 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
 {
+    public function __construct(private User $userModel)
+    {
+    }
+
     public function index(): LengthAwarePaginator
     {
-        $users = User::with(['role', 'orders'])
+        $users = $this->userModel::with(['role', 'orders'])
             ->paginate(10);
 
         return $users;
@@ -20,7 +24,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function show(string $id): ?User
     {
-        $user = User::with(['role', 'orders'])
+        $user = $this->userModel::with(['role', 'orders'])
             ->where('id', $id)
             ->first();
 

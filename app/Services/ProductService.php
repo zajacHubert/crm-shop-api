@@ -14,7 +14,7 @@ use App\Http\Requests\ProductUpdateRequest;
 
 class ProductService implements ProductServiceInterface
 {
-    public function __construct(private ProductRepositoryInterface $productRepository)
+    public function __construct(private ProductRepositoryInterface $productRepository, private Product $productModel)
     {
     }
 
@@ -46,7 +46,7 @@ class ProductService implements ProductServiceInterface
 
     public function destroy(string $id): array
     {
-        $success = Product::destroy($id);
+        $success = $this->productModel::destroy($id);
         return [
             'id' => $id,
             'success' => boolval($success),

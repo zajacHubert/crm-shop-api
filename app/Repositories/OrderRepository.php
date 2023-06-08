@@ -11,14 +11,27 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class OrderRepository implements OrderRepositoryInterface
 {
+    public function __construct(private Order $orderModel)
+    {
+    }
+
     public function index(Request $request): LengthAwarePaginator
     {
-        if ($request['sort_param']) {
-            $orders = Order::with(['user', 'products'])
+        if ($request['sort_param'] && !$request['user_id']) {
+            $orders = $this->orderModel::with(['user', 'products'])
+                ->orderBy($request['sort_param'], $request['direction'])
+                ->paginate(10);
+        } else if (!$request['sort_param'] && $request['user_id']) {
+            $orders = $this->orderModel::with(['user', 'products'])
+                ->where('user_id', $request['user_id'])
+                ->paginate(10);
+        } else if ($request['sort_param'] && $request['user_id']) {
+            $orders = $this->orderModel::with(['user', 'products'])
+                ->where('user_id', $request['user_id'])
                 ->orderBy($request['sort_param'], $request['direction'])
                 ->paginate(10);
         } else {
-            $orders = Order::with(['user', 'products'])
+            $orders = $this->orderModel::with(['user', 'products'])
                 ->paginate(10);
         }
 
@@ -27,7 +40,7 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function show(string $id): ?Order
     {
-        $order = Order::with(['user', 'products'])
+        $order = $this->orderModel::with(['user', 'products'])
             ->where('id', $id)
             ->first();
 

@@ -16,7 +16,7 @@ use App\Http\Requests\OrderUpdateRequest;
 
 class OrderService implements OrderServiceInterface
 {
-    public function __construct(private OrderRepositoryInterface $orderRepository)
+    public function __construct(private OrderRepositoryInterface $orderRepository, private Order $orderModel)
     {
     }
 
@@ -75,7 +75,7 @@ class OrderService implements OrderServiceInterface
             }
         }
 
-        $complete_order = Order::with(['user', 'products'])
+        $complete_order = $this->orderModel::with(['user', 'products'])
             ->where('id', [$request['id']])
             ->first();
 
@@ -84,7 +84,7 @@ class OrderService implements OrderServiceInterface
 
     public function destroy(string $id): array
     {
-        $success = Order::destroy($id);
+        $success = $this->orderModel::destroy($id);
         return [
             'success' => boolval($success),
             'order_id' => [$id],

@@ -11,12 +11,17 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ProductRepository implements ProductRepositoryInterface
 {
+    public function __construct(private Product $productModel)
+    {
+    }
+
+
     public function index(Request $request): LengthAwarePaginator
     {
         if ($request['product_category']) {
-            $products = Product::where('product_category', $request['product_category'])->paginate(10);
+            $products = $this->productModel::where('product_category', $request['product_category'])->paginate(10);
         } else {
-            $products = Product::paginate(10);
+            $products = $this->productModel::paginate(10);
         }
 
         return $products;
@@ -24,7 +29,7 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function show(string $id): ?Product
     {
-        $product = Product::find($id);
+        $product = $this->productModel::find($id);
         return $product;
     }
 }

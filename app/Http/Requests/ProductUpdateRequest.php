@@ -18,9 +18,8 @@ class ProductUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_name' => 'min:4|max:50|unique:products',
+            'product_name' => 'min:4|max:50',
             'product_desc' => 'min:4|max:200',
-            'product_price' => ['regex:/^((\d{1,3}|\s*){1})((\,\d{3}|\d)*)(\s*|\.(\d{2}))$/'],
             'product_category' => 'in:regular,bargain,sale,newest',
         ];
     }
