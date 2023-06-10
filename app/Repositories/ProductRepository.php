@@ -15,11 +15,18 @@ class ProductRepository implements ProductRepositoryInterface
     {
     }
 
-
     public function index(Request $request): LengthAwarePaginator
     {
-        if ($request['product_category']) {
-            $products = $this->productModel::where('product_category', $request['product_category'])->paginate(10);
+        if ($request['product_category'] && !$request['sort_param']) {
+            $products = $this->productModel::where('product_category', $request['product_category'])
+                ->paginate(10);
+        } else if (!$request['product_category'] && $request['sort_param']) {
+            $products = $this->productModel::orderBy($request['sort_param'], $request['direction'])
+                ->paginate(10);
+        } else if ($request['product_category'] && $request['sort_param']) {
+            $products = $this->productModel::where('product_category', $request['product_category'])
+                ->orderBy($request['sort_param'], $request['direction'])
+                ->paginate(10);
         } else {
             $products = $this->productModel::paginate(10);
         }

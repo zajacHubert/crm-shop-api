@@ -21,9 +21,9 @@ class UserController extends Controller
     {
     }
 
-    public function index(): LengthAwarePaginator
+    public function index(Request $request): LengthAwarePaginator
     {
-        return $this->userRepository->index();
+        return $this->userRepository->index($request);
     }
 
     public function show(string $id): ?User

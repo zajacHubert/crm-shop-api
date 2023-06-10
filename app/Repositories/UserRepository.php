@@ -7,6 +7,7 @@ namespace App\Repositories;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -14,12 +15,20 @@ class UserRepository implements UserRepositoryInterface
     {
     }
 
-    public function index(): LengthAwarePaginator
+    public function index(Request $request): LengthAwarePaginator
     {
-        $users = $this->userModel::with(['role', 'orders'])
-            ->paginate(10);
+        if ($request['sort_param']) {
+            $users = $this->userModel::with(['role', 'orders'])
+                ->orderBy($request['sort_param'], $request['direction'])
+                ->paginate(10);
 
-        return $users;
+            return $users;
+        } else {
+            $users = $this->userModel::with(['role', 'orders'])
+                ->paginate(10);
+
+            return $users;
+        }
     }
 
     public function show(string $id): ?User
