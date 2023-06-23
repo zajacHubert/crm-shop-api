@@ -1,9 +1,9 @@
 # CRM Shop Api
 ## REST Api hosted on MyDevil Server 
-## https://crm-api.mydevillogin.usermd.net/
+## https://crm-api.mydevillogin.usermd.net
 
 # Live preview with frontend
-## https://crm-shop-client.vercel.app/
+## https://crm-shop-client.vercel.app
 
 ## Test accounts to login to application with certain role:
 - Admin
